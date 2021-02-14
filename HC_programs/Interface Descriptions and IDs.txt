@@ -1,0 +1,48 @@
+------Service Descriptions--------
+Each service has a ID that the State and Name manager uses to address the unique web socket message.
+They are listed below
+
+ID = 0    Web Interface (used to setup device groups and route from devices to home commander devices)
+ID = 1    Kasa (routes from Kasa middleware)
+ID = 2    
+ID = 1000 weather service
+
+#to control a device packet should be this
+packet["event"] == "control":
+    packet["device_name"]
+    packet["power_state"]
+
+# when a client connects it should send this
+packet["event"] == "connect":
+    packet["MyID"]
+    packet["Name"]
+    # Code here: 
+    sendPacketToWSClient(websocket,"connect",{ "MyID":state["ID"],"Name":"Kasa Controller" }) #send my ID on startu
+
+
+# what a device home aka a service sends often to server
+packet["event"] == "list_of_devices":
+    packet["MyID"] # identifies device home
+    packet["device_table"] { name:state, name:state} # sends a dict of name and state
+#what a sensor sends to server
+packet["event"] == "list_of_sensor_data":
+    packet["MyID"] # identifies device home
+    packet["device_table"] { name:state, name:state} # sends a dict of name and state
+
+
+#get list of basic devices
+packet["event"] == "request_list_basic_devices":
+    #no data in packet besides event
+#response to above request
+packet["event"] == "give_list_basic_devices":
+    output_dict["device_table"] = [ [device_home,device_name,device_state],... ]
+
+
+
+#get list of basic devices
+packet["event"] == "request_list_basic_sensors":
+    #no data in packet besides event
+#response to above request
+packet["event"] == "give_list_basic_sensors":
+    output_dict["device_table"] = [ [device_home,device_name,device_state],... ]
+

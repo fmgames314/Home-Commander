@@ -1,0 +1,14 @@
+[Unit]
+Description=State And Name Manager (SANM)
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/SANM
+ExecStart=/usr/bin/python3 SANM.py
+
+[Install]
+WantedBy=multi-user.target

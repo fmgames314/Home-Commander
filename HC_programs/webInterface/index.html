@@ -1,0 +1,88 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- meta content -->
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <!-- title -->
+  <title>Control Page</title>
+  <!-- stylesheet -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+ <h1>Home Commander Server</h1>
+ 
+     <div id="leftBox">
+      <h2>Basic Devices and Sensors</h2>
+      <!-- basic devices -->
+       <table id="basic_devices">
+        <caption>Basic Devices</caption>
+          <thead>
+            <th>
+              Device Home
+            </th>
+            <th>
+              Device Name
+            </th>
+            <th>
+              State
+            </th>            
+          </thead>
+          <tbody>
+         </tbody>
+        </table> 
+         <!-- basic sensors -->
+        <table id="basic_sensors">
+        <caption>Basic Sensors</caption>
+          <thead>
+            <th>
+              Sensor Home
+            </th>
+            <th>
+              Sensor Name
+            </th>
+            <th>
+              Value
+            </th>            
+          </thead>
+          <tbody>
+         </tbody>
+        </table> 
+      </div>
+     <div id="rightBox">
+      <h2>Home Commander Devices</h2>
+       <table id="home_commander_device">
+        <caption>Home Commander Devices</caption>
+          <thead>
+            <th>
+              Device Name
+            </th>
+            <th>
+              List of Controlled Devices
+            </th>
+            <th>
+              Alexa Control
+            </th>  
+            <th>
+              State
+            </th>            
+          </thead>
+          <tbody>
+         </tbody>
+        </table> 
+      </div>
+
+  <!--load scripts at end of page to load HTML first -->
+  <script src="jquery.min.js"></script>
+  <script src="socket.io.min.js"></script>
+  <script src="websocket_client.js"></script> 
+
+</body>
+
+
+
+</html>
