@@ -133,7 +133,8 @@ async def process_websocket_event(websocket,packet,eventName,state):
         await sendPacketToWSClient(websocket,"give_list_basic_sensors",output_dict)
     # this event makes a HCD device and adds it to the list
     if eventName == "add_a_HCD":
-        device_name = packet["MyID"]
+        print("adding a new HCD "+str(packet["HCD_Name"]))
+        device_name = packet["HCD_Name"]
         new_HCD = state["HCD"].HCDevice(device_name)
         numberOfHCDs = len(state["list_of_HCDs"])
         new_HCD.device_id = numberOfHCDs+1
@@ -142,14 +143,45 @@ async def process_websocket_event(websocket,packet,eventName,state):
     # client is asking for list of HCDS
     if eventName == "request_list_HCDs":
         output_dict = {}
+        output_dict["device_table"] = []
         for HC_device in state["list_of_HCDs"]:
             HCD_bd_list = []
             for bd in HC_device.device_listOfBDs:
-                HCD_bd_list.append(bd.get_device_home())
-                HCD_bd_list.append(bd.get_device_name())
+                HCD_bd_list.append([bd.get_device_home(),bd.get_device_name()])
             device_name = HC_device.device_name
             device_state = HC_device.device_state
             device_id = HC_device.device_id
             alexa_control = HC_device.alexa_control
             output_dict["device_table"].append( [device_name,device_state,device_id,alexa_control,HCD_bd_list] )
         await sendPacketToWSClient(websocket,"give_list_HCDs",output_dict)
+    # client is asking to add a BD to a HCD
+    if eventName == "add_a_BD_to_HCD":
+        device_id = packet["device_id"]
+        device_home = packet["device_home"]
+        device_name = packet["device_name"]
+        for HC_device in state["list_of_HCDs"]:
+            if str(HC_device.device_id) == str(device_id): # we found a match for the HCD
+                for basic_dev in state["list_of_basicDevs"]:
+                    bd_device_home = basic_dev.get_device_home()
+                    bd_device_name = basic_dev.get_device_name()
+                    bd_device_home = state["Service_ID_to_Name"][bd_device_home] #this dumb line converts the ID to the name since the webpage sends the name
+                    if(str(bd_device_home).lower() == str(device_home).lower() and str(bd_device_name).lower() == str(device_name).lower()):
+                        #found a match for the requested basic device
+                        if basic_dev not in HC_device.device_listOfBDs:
+                            HC_device.add_BD(basic_dev)
+    # client is asking to REMOVE a BD to a HCD
+    if eventName == "remove_a_BD_to_HCD":
+        device_id = packet["device_id"]
+        device_home = packet["device_home"]
+        device_name = packet["device_name"]
+        for HC_device in state["list_of_HCDs"]:
+            if str(HC_device.device_id) == str(device_id): # we found a match for the HCD
+                for basic_dev in state["list_of_basicDevs"]:
+                    bd_device_home = basic_dev.get_device_home()
+                    bd_device_name = basic_dev.get_device_name()
+                    if(str(bd_device_home).lower() == str(device_home).lower() and str(bd_device_name).lower() == str(device_name).lower()):
+                        #found a match for the requested basic device
+                        if basic_dev in HC_device.device_listOfBDs:
+                            HC_device.remove_BD(basic_dev)
+                        
+        

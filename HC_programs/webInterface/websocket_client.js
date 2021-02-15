@@ -19,7 +19,7 @@ function processWebsocketData(data) {
       // console.log(jsonData)
       // check what event came in from the server
       var eventName = jsonData["event"]; 
-      // log data from server
+      // List Of Basic Devices from server
       if(eventName == "give_list_basic_devices"){
         var device_table = jsonData["device_table"]; 
         basic_device_table = document.getElementById("basic_devices")
@@ -37,6 +37,9 @@ function processWebsocketData(data) {
             document.getElementById(elementID+"_state").innerHTML  = device_state_onoff
           }else{
             basic_device_table.insertRow(1).innerHTML ='<td id="'+elementID+'_id">'+device_home+' ('+service_name+')</td><td id="'+elementID+'_name">'+device_name+'</td><td id="'+elementID+'_state" class="'+device_state_onoff+'">'+device_state_onoff+'</td>'
+            clickable_name =  document.getElementById(elementID+'_name')
+            clickable_name.setAttribute("onclick",'addBDtoHD("'+service_name+'","'+device_name+'");');
+            clickable_name.className = "clickable_name"
           }
         }
       }
@@ -59,6 +62,77 @@ function processWebsocketData(data) {
           }
         }
       }
+      // List Of Home Commander Devices 
+      if(eventName == "give_list_HCDs"){
+        var device_table = jsonData["device_table"]; 
+        HCDs_table = document.getElementById("home_commander_device")
+        for (var i = 0; i < device_table.length; i+=1) {
+          var device_name =  device_table[i][0]
+          var device_state =  device_table[i][1]
+          var device_id =  device_table[i][2]
+          var alexa_control = device_table[i][3]
+          var HCD_bd_list = device_table[i][4]
+          var device_state_onoff =  "ON" 
+          if(device_state == false){device_state_onoff =  "OFF"}
+          var elementID = 'hcd_'+device_id
+          if ($("#"+elementID+"_id").length > 0) {
+            document.getElementById(elementID+"_name").innerHTML  = device_name
+            document.getElementById(elementID+"_state").innerHTML  = device_state_onoff
+            document.getElementById(elementID+"_state").className = device_state_onoff
+            // itterate over list items and add if no in there
+            bds_cell = document.getElementById(elementID+"_bds")
+            // go over list of basic devices in HCD
+            bds_cell.innerHTML = ""
+            for (var j = 0; j < HCD_bd_list.length; j+=1) {
+                var li = document.createElement("li");
+                li.innerHTML = HCD_bd_list[j][0]+"_"+HCD_bd_list[j][1]
+                li.className = "clickable_removal"
+                li.setAttribute("onclick",'removeBDtoHD("'+HCD_bd_list[j][0]+'","'+HCD_bd_list[j][1]+'",'+device_id+');');
+                bds_cell.appendChild(li);
+            }
+
+          
+            //row doesn't even exist, add it 
+          }else{
+            //create row
+            var current_row = HCDs_table.insertRow(-1)
+            //create cell ID           
+            var cell = current_row.insertCell(-1)
+            cell.id = elementID+"_id"
+            cell.innerHTML = device_id            
+            //create cell name
+            var cell = current_row.insertCell(-1)
+            cell.id = elementID+"_name"
+            cell.innerHTML = device_name 
+            //create cell with list of devices controled 
+            var cell = current_row.insertCell(-1)
+                  // go over list of basic devices in HCD
+                  var ul_element = document.createElement("ul");
+                  for (var i = 0; i < HCD_bd_list.length; i+=1) {
+                      var li = document.createElement("li");
+                      li.innerHTML = HCD_bd_list[i][0]+"_"+HCD_bd_list[i][1]
+                      ul_element.appendChild(li);
+                  }
+                  //finall appent the list to the cell element
+                  cell.appendChild(ul_element);
+            cell.id = elementID+"_bds"
+            // cell.innerHTML = "add list of devices here"
+            //create cell alexa control
+            var cell = current_row.insertCell(-1)
+            cell.id = elementID+"_alexa"
+            cell.innerHTML = alexa_control
+            //create cell state
+            var cell = current_row.insertCell(-1)
+            cell.id = elementID+"_state"
+            cell.innerHTML = device_state_onoff
+            cell.className = device_state_onoff
+          }
+        }
+      }
+
+
+
+
 
 
       
@@ -76,23 +150,49 @@ function websocketSenderLoop() {
     outJSON = {
         event: "request_list_basic_sensors",
     }
+    request_HCD_List();
+}
+
+function request_HCD_List(){
+    outJSON = {
+        event: "request_list_HCDs",
+    }
     webSockObj.send(JSON.stringify(outJSON));
 }
 
 
 
-
-
-
-function sendData(){
-  idd = window.prompt("Input ID Number", "");
-  nn = window.prompt("Input New Name", "");
+function addBDtoHD(device_home,device_name){
+   device_id = window.prompt("Enter HCD ID", "");
   outJSON = {
-        event: "rename",
-        holeNumber: idd,
-        holeName: nn
+        event: "add_a_BD_to_HCD",
+        device_id: device_id,
+        device_home: device_home,
+        device_name: device_name,
     }
   webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
+}
+
+function removeBDtoHD(device_home,device_name,device_id){
+  outJSON = {
+        event: "remove_a_BD_to_HCD",
+        device_id: device_id,
+        device_home: device_home,
+        device_name: device_name,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
+}
+
+function create_a_HCD(){
+  nn = window.prompt("Input New Name", "");
+  outJSON = {
+        event: "add_a_HCD",
+        HCD_Name: nn,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
 }
 
 
