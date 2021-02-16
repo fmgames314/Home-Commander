@@ -1,0 +1,116 @@
+{
+        "FAUXMO": {
+            "ip_address": "auto"
+        },
+        "PLUGINS": {
+            "SimpleHTTPPlugin": {
+                "DEVICES": [
+                    {
+          "port": "12341",
+          "on_cmd": "http://127.0.0.1:1998/1/1",
+          "off_cmd": "http://127.0.0.1:1998/1/0",
+          "method": "GET",
+          "name": "Living Room Fan",
+          "state_cmd": "http://127.0.0.1:1998/1/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12342",
+          "on_cmd": "http://127.0.0.1:1998/2/1",
+          "off_cmd": "http://127.0.0.1:1998/2/0",
+          "method": "GET",
+          "name": "Kitchen Lights",
+          "state_cmd": "http://127.0.0.1:1998/2/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12343",
+          "on_cmd": "http://127.0.0.1:1998/3/1",
+          "off_cmd": "http://127.0.0.1:1998/3/0",
+          "method": "GET",
+          "name": "Bedroom Fan",
+          "state_cmd": "http://127.0.0.1:1998/3/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12345",
+          "on_cmd": "http://127.0.0.1:1998/5/1",
+          "off_cmd": "http://127.0.0.1:1998/5/0",
+          "method": "GET",
+          "name": "Front Lights",
+          "state_cmd": "http://127.0.0.1:1998/5/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12346",
+          "on_cmd": "http://127.0.0.1:1998/6/1",
+          "off_cmd": "http://127.0.0.1:1998/6/0",
+          "method": "GET",
+          "name": "Walkway Lights",
+          "state_cmd": "http://127.0.0.1:1998/6/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12347",
+          "on_cmd": "http://127.0.0.1:1998/7/1",
+          "off_cmd": "http://127.0.0.1:1998/7/0",
+          "method": "GET",
+          "name": "Lab Fan",
+          "state_cmd": "http://127.0.0.1:1998/7/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12348",
+          "on_cmd": "http://127.0.0.1:1998/8/1",
+          "off_cmd": "http://127.0.0.1:1998/8/0",
+          "method": "GET",
+          "name": "Flood Lights",
+          "state_cmd": "http://127.0.0.1:1998/8/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12349",
+          "on_cmd": "http://127.0.0.1:1998/9/1",
+          "off_cmd": "http://127.0.0.1:1998/9/0",
+          "method": "GET",
+          "name": "Red Light",
+          "state_cmd": "http://127.0.0.1:1998/9/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      }
+                ]
+            }
+        }
+    }
