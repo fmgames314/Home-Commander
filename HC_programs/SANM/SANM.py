@@ -10,6 +10,7 @@ import json
 import os
 import socket
 import time
+import pickle
 #import other files in same directory
 import basicDevices as BD
 import homeCommanderDevices as HCD
@@ -39,20 +40,6 @@ def register(websocket):
     state["list_of_websockets"].append(websocket)
 def unregister(websocket):
     state["list_of_websockets"].remove(websocket)
-
-
-async def power_device(state,device_name,power_state,device_home):
-    #get the websocket for the right device_home aka service
-    websocket = state["dict_of_devAddress"][device_home]
-    #generate the power control packet
-    output_dict = {}
-    output_dict["power_state"] = str(power_state)
-    output_dict["device_name"] = device_name
-    await SE.sendPacketToWSClient(websocket,"control",output_dict)
-
-
-
-
 
 
 async def consumer_handler(websocket):
@@ -103,6 +90,37 @@ async def handler(websocket, path) -> None:
 
 
 
+def load_HCD(state):
+    #read the config file
+    with open('HomeCommanderDevices.txt', 'rb') as config_dictionary_file:
+        config_dictionary = pickle.load(config_dictionary_file)
+        #make HCDevs
+        for devID, content in config_dictionary.items():
+            #Extract the content from the file
+            device_name = content[0]
+            device_listOfBDs = content[1]
+            device_state = content[2]
+            device_id = content[3]
+            alexa_control = content[4]
+            #create the HCD
+            new_HCD = state["HCD"].HCDevice(device_name)
+            #Load the values into it 
+            new_HCD.device_name = device_name
+            new_HCD.device_listOfBDs = device_listOfBDs
+            new_HCD.device_state = device_state
+            new_HCD.device_id = device_id
+            new_HCD.alexa_control = alexa_control
+            #Add it to the list of HCDS
+            state["list_of_HCDs"].append(new_HCD)
+            
+
+
+print("Loading HCDs")
+try:
+    load_HCD(state)
+    print("Done Loading")
+except:
+    print("Failed to load HCDS")
 print("Starting SANM")
 start_server = websockets.serve(handler, "0.0.0.0", 1997)
 asyncio.get_event_loop().run_until_complete(start_server)

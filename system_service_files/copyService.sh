@@ -21,3 +21,15 @@ cp device_home_weather.service /lib/systemd/system/device_home_weather.service
 chmod 644 /lib/systemd/system/device_home_weather.service
 systemctl enable device_home_weather
 systemctl restart device_home_weather
+
+systemctl disable fauxmoToHomeCommanderServer
+cp fauxmoToHomeCommanderServer.service /lib/systemd/system/fauxmoToHomeCommanderServer.service
+chmod 644 /lib/systemd/system/fauxmoToHomeCommanderServer.service
+systemctl enable fauxmoToHomeCommanderServer
+systemctl restart fauxmoToHomeCommanderServer
+
+systemctl disable fauxmo
+cp fauxmo.service /lib/systemd/system/fauxmo.service
+chmod 644 /lib/systemd/system/fauxmo.service
+systemctl enable fauxmo
+systemctl restart fauxmo

@@ -1,0 +1,14 @@
+[Unit]
+Description=fauxmo
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/fauxmo
+ExecStart=/home/pi/.local/bin/fauxmo -v -c /home/pi/home_commander/HC_programs/fauxmo/config.json
+
+[Install]
+WantedBy=multi-user.target

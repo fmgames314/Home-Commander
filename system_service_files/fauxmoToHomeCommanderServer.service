@@ -1,0 +1,14 @@
+[Unit]
+Description=fauxmoToHomeCommanderServer
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/fauxmo
+ExecStart=/usr/bin/python3 fauxmoToHomeCommanderServer.py
+
+[Install]
+WantedBy=multi-user.target

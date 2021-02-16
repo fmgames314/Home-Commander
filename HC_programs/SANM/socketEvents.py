@@ -1,4 +1,37 @@
 import json
+import pickle
+
+#for saving home commander Devices
+def save_HCD(state):
+    config_dictionary = {}
+    #load the dictionary with the home Commander Devices
+    for HC_Dev in state["list_of_HCDs"]:
+        listOfVals = [HC_Dev.device_name,HC_Dev.device_listOfBDs,HC_Dev.device_state,HC_Dev.device_id,HC_Dev.alexa_control]
+        config_dictionary[HC_Dev.device_id] = listOfVals
+    #open the file and save
+    with open('HomeCommanderDevices.txt', 'wb') as config_dictionary_file:
+        pickle.dump(config_dictionary, config_dictionary_file)
+    # now to write the alexa file
+    configFileOutput = ""
+    for HC_Dev in state["list_of_HCDs"]:
+        # get each HCD alexa string, if it is off it returns ""
+        configFileOutput+=HC_Dev.alexa_make_string()
+    configFileOutput = configFileOutput[:-1]
+    configFileData = """{
+        "FAUXMO": {
+            "ip_address": "auto"
+        },
+        "PLUGINS": {
+            "SimpleHTTPPlugin": {
+                "DEVICES": [
+                    """+configFileOutput+"""
+                ]
+            }
+        }
+    }"""
+    # print(configFileData)
+    with open('/home/pi/home_commander/HC_programs/fauxmo/config.json', 'w+') as the_file:
+        the_file.write(configFileData)
 
 #--------------List management for a basic device---------------------------
 def check_if_basic_device_in_list(state,device_home,device_name):
@@ -92,6 +125,9 @@ async def process_websocket_event(websocket,packet,eventName,state):
                     basic_dev.set_device_state(device_state)
                 else:
                     print("Some problem with device, it wouldn't find or create")
+            #now that we updated basic devices lets let the Home commadner devices recalcualte staes
+            for HC_device in state["list_of_HCDs"]:
+                HC_device.calculate_state(state)
         except:
             print("Client sent bad device table")
     #updated data from sensor services 
@@ -146,8 +182,8 @@ async def process_websocket_event(websocket,packet,eventName,state):
         output_dict["device_table"] = []
         for HC_device in state["list_of_HCDs"]:
             HCD_bd_list = []
-            for bd in HC_device.device_listOfBDs:
-                HCD_bd_list.append([bd.get_device_home(),bd.get_device_name()])
+            for bd_name,bd_id in HC_device.device_listOfBDs:
+                HCD_bd_list.append([bd_id,bd_name])
             device_name = HC_device.device_name
             device_state = HC_device.device_state
             device_id = HC_device.device_id
@@ -164,11 +200,12 @@ async def process_websocket_event(websocket,packet,eventName,state):
                 for basic_dev in state["list_of_basicDevs"]:
                     bd_device_home = basic_dev.get_device_home()
                     bd_device_name = basic_dev.get_device_name()
-                    bd_device_home = state["Service_ID_to_Name"][bd_device_home] #this dumb line converts the ID to the name since the webpage sends the name
-                    if(str(bd_device_home).lower() == str(device_home).lower() and str(bd_device_name).lower() == str(device_name).lower()):
+                    bd_device_home_name = state["Service_ID_to_Name"][bd_device_home] #this dumb line converts the ID to the name since the webpage sends the name
+                    if(str(bd_device_home_name).lower() == str(device_home).lower() and str(bd_device_name).lower() == str(device_name).lower()):
                         #found a match for the requested basic device
                         if basic_dev not in HC_device.device_listOfBDs:
-                            HC_device.add_BD(basic_dev)
+                            HC_device.add_BD(bd_device_name,bd_device_home)
+                            save_HCD(state) #save HCDS to file
     # client is asking to REMOVE a BD to a HCD
     if eventName == "remove_a_BD_to_HCD":
         device_id = packet["device_id"]
@@ -181,7 +218,29 @@ async def process_websocket_event(websocket,packet,eventName,state):
                     bd_device_name = basic_dev.get_device_name()
                     if(str(bd_device_home).lower() == str(device_home).lower() and str(bd_device_name).lower() == str(device_name).lower()):
                         #found a match for the requested basic device
-                        if basic_dev in HC_device.device_listOfBDs:
-                            HC_device.remove_BD(basic_dev)
-                        
-        
+                        if [bd_device_name,bd_device_home] in HC_device.device_listOfBDs:
+                            HC_device.remove_BD(bd_device_name,bd_device_home)
+                            save_HCD(state) #save HCDS to file
+    # client is trying to power a HCD
+    if eventName == "HCD_power":
+        desired_id = packet["device_id"]
+        desired_state = packet["device_state"]                  
+        for HC_device in state["list_of_HCDs"]:
+            if str(HC_device.device_id) == str(desired_id): # we found a match for the HCD
+                await HC_device.power(state,desired_state)
+    #client wants to rename a HCD
+    if eventName == "renameHCD":
+        desired_id = packet["device_id"]
+        device_new_name = packet["device_new_name"]                  
+        for HC_device in state["list_of_HCDs"]:
+            if str(HC_device.device_id) == str(desired_id): # we found a match for the HCD
+                HC_device.device_name = device_new_name
+                save_HCD(state) #save HCDS to file
+    if eventName == "setAlexaHCD":
+        desired_id = packet["device_id"]
+        alexa_control = packet["alexa_control"]                  
+        for HC_device in state["list_of_HCDs"]:
+            if str(HC_device.device_id) == str(desired_id): # we found a match for the HCD
+                HC_device.alexa_control = alexa_control
+                save_HCD(state) #save HCDS to file
+                

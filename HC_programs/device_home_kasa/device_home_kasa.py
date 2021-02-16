@@ -21,6 +21,7 @@ async def power_device(state,device_name,power_state):
                 if str(power_state) == "1":
                     await dev.turn_on()
                 await dev.update()
+                state["outlet_dict"][str(dev.alias)] = dev.is_on
     except Exception as e:
         print("couldn't control outlet, probably doesn't exist yet" + str(e))
 
@@ -38,11 +39,12 @@ async def consumer_handler(websocket,state):
             try:
                 packet = json.loads(message)
                 try:
-                    print(packet)
+                    # print(packet)
                     if packet["event"] == "control":
                         device_name = packet["device_name"]
                         power_state = packet["power_state"]
                         await power_device(state,device_name,power_state)
+                        await sendOutletsToServer(websocket,state)
                 except Exception as e:
                     print("bad websocket packet, probably no event name: "+str(e))
             except Exception as e:
@@ -56,17 +58,17 @@ async def consumer_handler(websocket,state):
 async def producer_handler(websocket,state):
     while True:
         try:
-            print("sending packet")
-            output_dict = {}
-            output_dict["MyID"] = state["ID"]
-            output_dict["device_table"] = state["outlet_dict"]
-            await sendPacketToWSClient(websocket,"list_of_devices",output_dict)
-            await asyncio.sleep(2)
+            await sendOutletsToServer(websocket,state)
+            await asyncio.sleep(1)
         except Exception as e:
             print("failed to send a websocket packet: " + str(e))
             await asyncio.sleep(2)
 
-
+async def sendOutletsToServer(websocket,state):
+    output_dict = {}
+    output_dict["MyID"] = state["ID"]
+    output_dict["device_table"] = state["outlet_dict"]
+    await sendPacketToWSClient(websocket,"list_of_devices",output_dict)
 
 
 async def websocket_connection(state):
@@ -109,11 +111,8 @@ async def kasa_update_loop(state):
     while True:
         try:
             if state["kasa_disc_state"] == False: #don't update if discovering kasa
-                state["outlet_dict"] = {}
-                for addr, dev in state["devices"].items():
-                    await dev.update()
-                    state["outlet_dict"][str(dev.alias)] = dev.is_on
-                await asyncio.sleep(20)     
+                await update_kasas(state)
+                await asyncio.sleep(6)     
             else:
                 print("waiting for discovery before updating")
                 await asyncio.sleep(2)
@@ -122,6 +121,12 @@ async def kasa_update_loop(state):
             print("Issue with devices update, Error: "+str(e))
             await asyncio.sleep(1)
 
+async def update_kasas(state):
+    if state["kasa_disc_state"] == False: #don't update if discovering kasa
+        state["outlet_dict"] = {}
+        for addr, dev in state["devices"].items():
+            await dev.update()
+            state["outlet_dict"][str(dev.alias)] = dev.is_on
 
 
 tempState = getState()

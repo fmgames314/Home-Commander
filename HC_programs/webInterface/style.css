@@ -66,6 +66,12 @@ background-color: #dddddd;
 text-align: center; 
   vertical-align: middle;
 }
+.PERCENT {
+  background-color: rgb(255,180,90);
+text-align: center; 
+  vertical-align: middle;
+}
+
 
 .clickable_name:hover {
   background-color: yellow;
@@ -79,6 +85,29 @@ text-align: center;
 .clickable_removal:hover{
   background-color: rgb(200,170,170);
 }
+
+.clickable_renamer:hover{
+  background-color: rgb(150,170,200);
+}
+
+.alexa_true{
+  background-color: rgb(190,255,190);
+  text-align: center; 
+  vertical-align: middle;
+}
+.alexa_true:hover{
+  background-color: rgb(210,255,210);
+}
+
+.alexa_false{
+  background-color: rgb(255,190,190);
+  text-align: center; 
+  vertical-align: middle;
+}
+.alexa_false:hover{
+  background-color: rgb(255,210,210);
+}
+
 
 ul{
   list-style-type: none;

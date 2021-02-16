@@ -1,4 +1,5 @@
 //setup the connection for websocket
+
 console.log("Connecting to ws://" + document.domain + ":1997/")
 const webSockObj = new WebSocket("ws://" + document.domain + ":1997/");
 console.log(webSockObj)
@@ -6,6 +7,7 @@ console.log(webSockObj)
 webSockObj.addEventListener("message", function(event) {
   processWebsocketData(event.data);
 });
+
 
 
 var listOfHoles = {};
@@ -35,6 +37,7 @@ function processWebsocketData(data) {
             // document.getElementById(elementID+"_id").innerHTML  = device_home
             document.getElementById(elementID+"_name").innerHTML  = device_name
             document.getElementById(elementID+"_state").innerHTML  = device_state_onoff
+            document.getElementById(elementID+"_state").className = device_state_onoff
           }else{
             basic_device_table.insertRow(1).innerHTML ='<td id="'+elementID+'_id">'+device_home+' ('+service_name+')</td><td id="'+elementID+'_name">'+device_name+'</td><td id="'+elementID+'_state" class="'+device_state_onoff+'">'+device_state_onoff+'</td>'
             clickable_name =  document.getElementById(elementID+'_name')
@@ -72,13 +75,31 @@ function processWebsocketData(data) {
           var device_id =  device_table[i][2]
           var alexa_control = device_table[i][3]
           var HCD_bd_list = device_table[i][4]
-          var device_state_onoff =  "ON" 
+          var device_state_onoff =  device_state
+          if(device_state == true){device_state_onoff =  "ON"}
           if(device_state == false){device_state_onoff =  "OFF"}
+          if(device_state > 0 && device_state < 1){device_state_onoff = "PERCENT"}
+
           var elementID = 'hcd_'+device_id
           if ($("#"+elementID+"_id").length > 0) {
-            document.getElementById(elementID+"_name").innerHTML  = device_name
-            document.getElementById(elementID+"_state").innerHTML  = device_state_onoff
-            document.getElementById(elementID+"_state").className = device_state_onoff
+            //name
+            HCD_Name = document.getElementById(elementID+"_name")
+            HCD_Name.innerHTML  = device_name
+            HCD_Name.setAttribute("onclick",'renameHCD("'+device_id+'");');
+            HCD_Name.className = "clickable_renamer"
+            // set stuff for the power state
+            HCD_state = document.getElementById(elementID+"_state")
+            if(device_state_onoff == "PERCENT"){ // has a percent
+              HCD_state.innerHTML  = parseInt(device_state*100)+"%"
+              var onOrOff = 0;
+              if(device_state >= .5){onOrOff = 1}
+              HCD_state.setAttribute("onclick",'powerDevice("'+device_id+'",'+onOrOff+');');
+            }else{ // just on or off
+              HCD_state.innerHTML  = device_state_onoff
+              HCD_state.setAttribute("onclick",'powerDevice("'+device_id+'",'+!device_state+');');
+            }
+            HCD_state.className = device_state_onoff
+            
             // itterate over list items and add if no in there
             bds_cell = document.getElementById(elementID+"_bds")
             // go over list of basic devices in HCD
@@ -90,7 +111,12 @@ function processWebsocketData(data) {
                 li.setAttribute("onclick",'removeBDtoHD("'+HCD_bd_list[j][0]+'","'+HCD_bd_list[j][1]+'",'+device_id+');');
                 bds_cell.appendChild(li);
             }
-
+            
+            // Alexa rename
+            HCD_Alexa = document.getElementById(elementID+"_alexa")
+            HCD_Alexa.innerHTML  = alexa_control
+            HCD_Alexa.setAttribute("onclick",'setAlexaHCD("'+device_id+'",'+!alexa_control+');');
+            HCD_Alexa.className = "alexa_"+alexa_control
           
             //row doesn't even exist, add it 
           }else{
@@ -140,8 +166,9 @@ function processWebsocketData(data) {
 }
 
 
+var intervalVar1 = setInterval(websocketSenderLoop, 4000);
+var intervalVar2 = setInterval(request_HCD_List, 500);
 
-var intervalVar = setInterval(websocketSenderLoop, 2000);
 function websocketSenderLoop() {
     outJSON = {
         event: "request_list_basic_devices",
@@ -150,7 +177,7 @@ function websocketSenderLoop() {
     outJSON = {
         event: "request_list_basic_sensors",
     }
-    request_HCD_List();
+    webSockObj.send(JSON.stringify(outJSON));
 }
 
 function request_HCD_List(){
@@ -160,6 +187,27 @@ function request_HCD_List(){
     webSockObj.send(JSON.stringify(outJSON));
 }
 
+
+
+function renameHCD(device_id){
+   device_new_name = window.prompt("Enter HCD Name", "");
+  outJSON = {
+        event: "renameHCD",
+        device_id: device_id,
+        device_new_name: device_new_name,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
+}
+function setAlexaHCD(device_id,alexa_state){
+  outJSON = {
+        event: "setAlexaHCD",
+        device_id: device_id,
+        alexa_control: alexa_state,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
+}
 
 
 function addBDtoHD(device_home,device_name){
@@ -190,6 +238,16 @@ function create_a_HCD(){
   outJSON = {
         event: "add_a_HCD",
         HCD_Name: nn,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+  request_HCD_List()
+}
+
+function powerDevice(device_id,device_state){
+  outJSON = {
+        event: "HCD_power",
+        device_id: device_id,
+        device_state: device_state,
     }
   webSockObj.send(JSON.stringify(outJSON));
   request_HCD_List()
