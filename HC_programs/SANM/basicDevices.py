@@ -42,6 +42,7 @@ class basicSensor:
     self.device_home = device_home
     self.device_home_name = service_name
     self.device_value = 0
+    self.transmit = 1
 
   def get_device_home(self):
     return self.device_home
@@ -56,3 +57,7 @@ class basicSensor:
   def get_service_name(self):
     return self.device_home_name 
 
+  def get_trans(self):
+    return self.transmit
+  def set_trans(self):
+    return self.transmit

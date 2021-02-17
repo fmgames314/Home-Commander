@@ -1,0 +1,14 @@
+[Unit]
+Description=legacy_nameServer
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/legacy_homeCommander
+ExecStart=/usr/bin/python3 legacy_nameServer.py
+
+[Install]
+WantedBy=multi-user.target

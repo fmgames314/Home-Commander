@@ -1,0 +1,14 @@
+[Unit]
+Description=legacy_HC_socket.py
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/legacy_homeCommander
+ExecStart=/usr/bin/python3 legacy_HC_socket.py
+
+[Install]
+WantedBy=multi-user.target

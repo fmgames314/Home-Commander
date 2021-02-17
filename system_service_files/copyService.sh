@@ -33,3 +33,16 @@ cp fauxmo.service /lib/systemd/system/fauxmo.service
 chmod 644 /lib/systemd/system/fauxmo.service
 systemctl enable fauxmo
 systemctl restart fauxmo
+
+systemctl disable legacy_nameServer
+cp legacy_nameServer.service /lib/systemd/system/legacy_nameServer.service
+chmod 644 /lib/systemd/system/legacy_nameServer.service
+systemctl enable legacy_nameServer
+systemctl restart legacy_nameServer
+
+systemctl disable legacy_HC_socket
+cp legacy_HC_socket.service /lib/systemd/system/legacy_HC_socket.service
+chmod 644 /lib/systemd/system/legacy_HC_socket.service
+systemctl enable legacy_HC_socket
+systemctl restart legacy_HC_socket
+

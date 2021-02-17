@@ -165,7 +165,8 @@ async def process_websocket_event(websocket,packet,eventName,state):
             device_name = basic_dev.get_device_name()
             device_value = basic_dev.get_device_value()
             service_name = basic_dev.get_service_name()
-            output_dict["device_table"].append( [device_home,device_name,device_value,service_name] )
+            device_trans = basic_dev.get_trans()
+            output_dict["device_table"].append( [device_home,device_name,device_value,service_name,device_trans] )
         await sendPacketToWSClient(websocket,"give_list_basic_sensors",output_dict)
     # this event makes a HCD device and adds it to the list
     if eventName == "add_a_HCD":
