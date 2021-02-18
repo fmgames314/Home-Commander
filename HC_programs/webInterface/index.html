@@ -47,11 +47,23 @@
             </th>
             <th>
               Value
-            </th>            
+            </th>    
+            <th>
+              HC Use
+            </th>         
           </thead>
           <tbody>
          </tbody>
         </table> 
+
+        <div id="add_xbee_device">
+          <h2>Add a Xbee Device</h2>
+          Device name: <input type="text" id="box_device_name">
+          On Command: <input type="text" id="box_device_on_command" placeholder="@SHD0?%">
+          Off Command: <input type="text" id="box_device_off_command" placeholder="@SHD100?%">
+          <button onclick=" add_xbee_device()">Add Xbee Device</button>
+        </div>
+
       </div>
      <div id="rightBox">
       <h2>Home Commander Devices</h2>

@@ -122,6 +122,19 @@
           },
           "state_response_on": "1",
           "state_response_off": "0"
+      },{
+          "port": "12353",
+          "on_cmd": "http://127.0.0.1:1998/13/1",
+          "off_cmd": "http://127.0.0.1:1998/13/0",
+          "method": "GET",
+          "name": "shades",
+          "state_cmd": "http://127.0.0.1:1998/13/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
       }
                 ]
             }

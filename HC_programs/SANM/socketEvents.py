@@ -244,4 +244,10 @@ async def process_websocket_event(websocket,packet,eventName,state):
             if str(HC_device.device_id) == str(desired_id): # we found a match for the HCD
                 HC_device.alexa_control = alexa_control
                 save_HCD(state) #save HCDS to file
-                
+    #this event takes a new basic device from webpage and sends it to xbee service
+    if eventName == "add_xbee_device":
+        #find the xbee websocket and forward the packet from the webpage to it to add the new device
+        print(packet)
+        xbee_websocket = state["dict_of_devAddress"][2]
+        await state["SE"].sendPacketToWSClient(xbee_websocket,"add_xbee_device",packet)  
+

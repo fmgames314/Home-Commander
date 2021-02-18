@@ -46,3 +46,8 @@ chmod 644 /lib/systemd/system/legacy_HC_socket.service
 systemctl enable legacy_HC_socket
 systemctl restart legacy_HC_socket
 
+systemctl disable device_home_xbee
+cp device_home_xbee.service /lib/systemd/system/device_home_xbee.service
+chmod 644 /lib/systemd/system/device_home_xbee.service
+systemctl enable device_home_xbee
+systemctl restart device_home_xbee

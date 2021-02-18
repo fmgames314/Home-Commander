@@ -55,13 +55,15 @@ function processWebsocketData(data) {
           var device_name =  device_table[i][1]
           var device_value =  device_table[i][2]
           var service_name = device_table[i][3]
+          var hc_use = device_table[i][4]
           var elementID = 'bs_'+device_home+'_'+(device_name.split(' ').join('_'));
           if ($("#"+elementID+"_id").length > 0) {
             // document.getElementById(elementID+"_id").innerHTML  = device_home
             document.getElementById(elementID+"_name").innerHTML  = device_name
             document.getElementById(elementID+"_state").innerHTML  = device_value
+            document.getElementById(elementID+"_hcUse").innerHTML  = hc_use
           }else{
-            basic_device_table.insertRow(1).innerHTML ='<td id="'+elementID+'_id">'+device_home+' ('+service_name+')</td><td id="'+elementID+'_name">'+device_name+'</td><td id="'+elementID+'_state" class="sensor">'+device_value+'</td>'
+            basic_device_table.insertRow(1).innerHTML ='<td id="'+elementID+'_id">'+device_home+' ('+service_name+')</td><td id="'+elementID+'_name">'+device_name+'</td><td id="'+elementID+'_state" class="sensor">'+device_value+'</td><td id="'+elementID+'__hcUse" class="hcUse">'+hc_use+'</td>'
           }
         }
       }
@@ -252,6 +254,23 @@ function powerDevice(device_id,device_state){
   webSockObj.send(JSON.stringify(outJSON));
   request_HCD_List()
 }
+
+
+function add_xbee_device(){
+  console.log("adding device")
+  var device_name = document.getElementById("box_device_name").value;
+  var device_on_command = document.getElementById("box_device_on_command").value;
+  var device_off_command = document.getElementById("box_device_off_command").value;
+  outJSON = {
+        event: "add_xbee_device",
+        device_name: device_name,
+        device_on_command: device_on_command,
+        device_off_command: device_off_command,
+    }
+  webSockObj.send(JSON.stringify(outJSON));
+}
+
+
 
 
 function IsJsonString(str) {
