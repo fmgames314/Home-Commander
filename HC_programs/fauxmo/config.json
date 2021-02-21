@@ -45,6 +45,19 @@
           "state_response_on": "1",
           "state_response_off": "0"
       },{
+          "port": "12344",
+          "on_cmd": "http://127.0.0.1:1998/4/1",
+          "off_cmd": "http://127.0.0.1:1998/4/0",
+          "method": "GET",
+          "name": "Top Lights",
+          "state_cmd": "http://127.0.0.1:1998/4/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
           "port": "12345",
           "on_cmd": "http://127.0.0.1:1998/5/1",
           "off_cmd": "http://127.0.0.1:1998/5/0",
@@ -110,11 +123,37 @@
           "state_response_on": "1",
           "state_response_off": "0"
       },{
+          "port": "12350",
+          "on_cmd": "http://127.0.0.1:1998/10/1",
+          "off_cmd": "http://127.0.0.1:1998/10/0",
+          "method": "GET",
+          "name": "irrigation",
+          "state_cmd": "http://127.0.0.1:1998/10/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12351",
+          "on_cmd": "http://127.0.0.1:1998/11/1",
+          "off_cmd": "http://127.0.0.1:1998/11/0",
+          "method": "GET",
+          "name": "Guest Room",
+          "state_cmd": "http://127.0.0.1:1998/11/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
           "port": "12352",
           "on_cmd": "http://127.0.0.1:1998/12/1",
           "off_cmd": "http://127.0.0.1:1998/12/0",
           "method": "GET",
-          "name": "potato",
+          "name": "3D Printer",
           "state_cmd": "http://127.0.0.1:1998/12/2",
           "state_method": "GET",
           "state_data": {
@@ -129,6 +168,292 @@
           "method": "GET",
           "name": "shades",
           "state_cmd": "http://127.0.0.1:1998/13/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12354",
+          "on_cmd": "http://127.0.0.1:1998/14/1",
+          "off_cmd": "http://127.0.0.1:1998/14/0",
+          "method": "GET",
+          "name": "Lab Filter",
+          "state_cmd": "http://127.0.0.1:1998/14/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12355",
+          "on_cmd": "http://127.0.0.1:1998/15/1",
+          "off_cmd": "http://127.0.0.1:1998/15/0",
+          "method": "GET",
+          "name": "blinds",
+          "state_cmd": "http://127.0.0.1:1998/15/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12356",
+          "on_cmd": "http://127.0.0.1:1998/16/1",
+          "off_cmd": "http://127.0.0.1:1998/16/0",
+          "method": "GET",
+          "name": "window",
+          "state_cmd": "http://127.0.0.1:1998/16/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12357",
+          "on_cmd": "http://127.0.0.1:1998/17/1",
+          "off_cmd": "http://127.0.0.1:1998/17/0",
+          "method": "GET",
+          "name": "monitors",
+          "state_cmd": "http://127.0.0.1:1998/17/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12358",
+          "on_cmd": "http://127.0.0.1:1998/18/1",
+          "off_cmd": "http://127.0.0.1:1998/18/0",
+          "method": "GET",
+          "name": "square lamp",
+          "state_cmd": "http://127.0.0.1:1998/18/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12359",
+          "on_cmd": "http://127.0.0.1:1998/19/1",
+          "off_cmd": "http://127.0.0.1:1998/19/0",
+          "method": "GET",
+          "name": "couch lamp",
+          "state_cmd": "http://127.0.0.1:1998/19/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12360",
+          "on_cmd": "http://127.0.0.1:1998/20/1",
+          "off_cmd": "http://127.0.0.1:1998/20/0",
+          "method": "GET",
+          "name": "lab lights",
+          "state_cmd": "http://127.0.0.1:1998/20/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12361",
+          "on_cmd": "http://127.0.0.1:1998/21/1",
+          "off_cmd": "http://127.0.0.1:1998/21/0",
+          "method": "GET",
+          "name": "lab lights back",
+          "state_cmd": "http://127.0.0.1:1998/21/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12362",
+          "on_cmd": "http://127.0.0.1:1998/22/1",
+          "off_cmd": "http://127.0.0.1:1998/22/0",
+          "method": "GET",
+          "name": "night light",
+          "state_cmd": "http://127.0.0.1:1998/22/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12363",
+          "on_cmd": "http://127.0.0.1:1998/23/1",
+          "off_cmd": "http://127.0.0.1:1998/23/0",
+          "method": "GET",
+          "name": "LEDs",
+          "state_cmd": "http://127.0.0.1:1998/23/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12364",
+          "on_cmd": "http://127.0.0.1:1998/24/1",
+          "off_cmd": "http://127.0.0.1:1998/24/0",
+          "method": "GET",
+          "name": "bedroom tv",
+          "state_cmd": "http://127.0.0.1:1998/24/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12365",
+          "on_cmd": "http://127.0.0.1:1998/25/1",
+          "off_cmd": "http://127.0.0.1:1998/25/0",
+          "method": "GET",
+          "name": "bedroom monitors",
+          "state_cmd": "http://127.0.0.1:1998/25/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12366",
+          "on_cmd": "http://127.0.0.1:1998/26/1",
+          "off_cmd": "http://127.0.0.1:1998/26/0",
+          "method": "GET",
+          "name": "porch",
+          "state_cmd": "http://127.0.0.1:1998/26/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12367",
+          "on_cmd": "http://127.0.0.1:1998/27/1",
+          "off_cmd": "http://127.0.0.1:1998/27/0",
+          "method": "GET",
+          "name": "party box",
+          "state_cmd": "http://127.0.0.1:1998/27/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12368",
+          "on_cmd": "http://127.0.0.1:1998/28/1",
+          "off_cmd": "http://127.0.0.1:1998/28/0",
+          "method": "GET",
+          "name": "bedroom lamp",
+          "state_cmd": "http://127.0.0.1:1998/28/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12369",
+          "on_cmd": "http://127.0.0.1:1998/29/1",
+          "off_cmd": "http://127.0.0.1:1998/29/0",
+          "method": "GET",
+          "name": "lumos",
+          "state_cmd": "http://127.0.0.1:1998/29/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12370",
+          "on_cmd": "http://127.0.0.1:1998/30/1",
+          "off_cmd": "http://127.0.0.1:1998/30/0",
+          "method": "GET",
+          "name": "Living room",
+          "state_cmd": "http://127.0.0.1:1998/30/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12371",
+          "on_cmd": "http://127.0.0.1:1998/31/1",
+          "off_cmd": "http://127.0.0.1:1998/31/0",
+          "method": "GET",
+          "name": "system",
+          "state_cmd": "http://127.0.0.1:1998/31/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12372",
+          "on_cmd": "http://127.0.0.1:1998/32/1",
+          "off_cmd": "http://127.0.0.1:1998/32/0",
+          "method": "GET",
+          "name": "every thing",
+          "state_cmd": "http://127.0.0.1:1998/32/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12373",
+          "on_cmd": "http://127.0.0.1:1998/33/1",
+          "off_cmd": "http://127.0.0.1:1998/33/0",
+          "method": "GET",
+          "name": "bedroom leds",
+          "state_cmd": "http://127.0.0.1:1998/33/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12374",
+          "on_cmd": "http://127.0.0.1:1998/34/1",
+          "off_cmd": "http://127.0.0.1:1998/34/0",
+          "method": "GET",
+          "name": "bedroom",
+          "state_cmd": "http://127.0.0.1:1998/34/2",
+          "state_method": "GET",
+          "state_data": {
+          "get_switch_state": "give"
+          },
+          "state_response_on": "1",
+          "state_response_off": "0"
+      },{
+          "port": "12375",
+          "on_cmd": "http://127.0.0.1:1998/35/1",
+          "off_cmd": "http://127.0.0.1:1998/35/0",
+          "method": "GET",
+          "name": "basic things",
+          "state_cmd": "http://127.0.0.1:1998/35/2",
           "state_method": "GET",
           "state_data": {
           "get_switch_state": "give"

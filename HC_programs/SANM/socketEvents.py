@@ -63,13 +63,13 @@ def find_or_create_basic_device(state,device_home,device_name):
 
 #--------------List management for a basic sensor device---------------------------
 def check_if_basic_sensor_in_list(state,device_home,device_name):
-    for basic_sen in state["list_of_basicDevs"]:
+    for basic_sen in state["list_of_basicSens"]:
         if basic_sen.get_device_home() == device_home and basic_sen.get_device_name() == device_name:
             return True
     return False
 
 def get_basic_sensor_in_list(state,device_home,device_name):
-    for basic_sen in state["list_of_basicDevs"]:
+    for basic_sen in state["list_of_basicSens"]:
         if basic_sen.get_device_home() == device_home and basic_sen.get_device_name() == device_name:
             return basic_sen
     return False

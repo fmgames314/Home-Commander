@@ -74,9 +74,9 @@ async def brodcast_socket(client,state):
                 HAD_string+=str(value)+"?"
             HAD_string+="%"
             response+=HAD_string
-            # print(response)
+            print(response)
             await loop.sock_sendall(client, response.encode('utf8'))
-            await asyncio.sleep(.1)
+            await asyncio.sleep(.3)
         except:
             print("failed to brodcast to clients!?!?!")
             connected = False
@@ -114,7 +114,7 @@ async def parse_packet(state,packet):
                     device_value = device[2]
                     device_trans = device[4]
                     if device_trans == 1:
-                        state["listOfSensors"].append(device_value)      
+                        state["listOfSensors"].append(device_value)   
             except Exception as e:
                 print("Failed to sensor"+str(e))         
     except Exception as e:
@@ -140,7 +140,8 @@ async def processWS(state):
             packet = await websocket.recv()
             packet = json.loads(packet)
             await parse_packet(state,packet) 
-            await asyncio.sleep(.1)
+            await asyncio.sleep(.2)
+            print("request")
     # await websocket.send(name)
     # greeting = await websocket.recv()
    

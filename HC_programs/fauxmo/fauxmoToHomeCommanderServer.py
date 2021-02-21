@@ -7,6 +7,8 @@ import time
 path_to_HCDs = "/home/pi/home_commander/HC_programs/SANM/HomeCommanderDevices.txt"
 state = {}
 state["lastPowState"] = {}
+for i in range(100):
+    state["lastPowState"][str(i)] = "0"
 
 def getPowerPacket(state,device_id,device_state):
     bufferDict = {}
@@ -36,9 +38,15 @@ async def handle(request):
     # Return text back to teh connector
     device_state = int(device_state)
     if device_state == 2:
-        device_state = state["lastPowState"][str(device_id)]
+        try:
+            device_state = state["lastPowState"][str(device_id)]
+        except:
+            print("bad devive key")
     else:
-        state["lastPowState"][str(device_id)] = device_state
+        try:
+            state["lastPowState"][str(device_id)] = device_state
+        except:
+            print("bad device key")
     return web.Response(text=str(device_state))
 
 #http://192.168.1.101:8080/deviceName/state
