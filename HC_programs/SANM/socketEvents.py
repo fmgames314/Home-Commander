@@ -247,7 +247,15 @@ async def process_websocket_event(websocket,packet,eventName,state):
     #this event takes a new basic device from webpage and sends it to xbee service
     if eventName == "add_xbee_device":
         #find the xbee websocket and forward the packet from the webpage to it to add the new device
-        print(packet)
         xbee_websocket = state["dict_of_devAddress"][2]
         await state["SE"].sendPacketToWSClient(xbee_websocket,"add_xbee_device",packet)  
 
+
+    #this event takes a key from user and 
+    if eventName == "key":
+        #find the xbee websocket and forward the packet from the webpage to it to add the new device
+        try:
+            secSystemWS = state["dict_of_devAddress"][999]
+            await state["SE"].sendPacketToWSClient(secSystemWS,"key",packet)  
+        except:
+            print("Failed to send key to security system")

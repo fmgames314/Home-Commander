@@ -48,11 +48,17 @@ async def handle_client(client,state):
                             device_state = packet[1]
                             await power_device(state,device_id,device_state)
                         if "KEY" in splits:
-                            print(splits) #KEY00?
+                            splits = splits.replace('KEY','') #remove the flag name
+                            packet = splits.split("?")
+                            key = packet[0]
+                            bufferDict = {}
+                            bufferDict["event"] = "key"
+                            bufferDict["key"] = key
+                            json_out = json.dumps(bufferDict)
+                            await state["ws"].send(json_out)
 
                 except:
                     print("Bad packet")
-                    print(pds)
             response = ""
 
     #client.close()
@@ -74,7 +80,7 @@ async def brodcast_socket(client,state):
                 HAD_string+=str(value)+"?"
             HAD_string+="%"
             response+=HAD_string
-            print(response)
+            # print(response)
             await loop.sock_sendall(client, response.encode('utf8'))
             await asyncio.sleep(.3)
         except:
@@ -141,7 +147,6 @@ async def processWS(state):
             packet = json.loads(packet)
             await parse_packet(state,packet) 
             await asyncio.sleep(.2)
-            print("request")
     # await websocket.send(name)
     # greeting = await websocket.recv()
    

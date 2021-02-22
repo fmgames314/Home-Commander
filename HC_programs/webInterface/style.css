@@ -5,7 +5,7 @@ text-align: center;
 }  
 
 #leftBox{
-    max-width:900px;
+    max-width:1100px;
     float:left;
     border: 1px solid rgb(0,0,0);
     border-radius: 25px;
@@ -17,6 +17,7 @@ text-align: center;
     border: 1px solid rgb(0,0,0);
     border-radius: 25px;
     background: rgb(215,215,215);
+    margin-bottom: 400px;
 }
 
 
