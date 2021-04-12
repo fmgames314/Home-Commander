@@ -149,6 +149,7 @@ async def process_websocket_event(websocket,packet,eventName,state):
     if eventName == "request_list_basic_devices":
         output_dict = {}
         output_dict["device_table"] = []
+        state["list_of_basicDevs"].sort(key=lambda x: int(x.get_device_home()), reverse=True)
         for basic_dev in state["list_of_basicDevs"]:
             device_home = basic_dev.get_device_home()
             device_name = basic_dev.get_device_name()
@@ -160,6 +161,7 @@ async def process_websocket_event(websocket,packet,eventName,state):
     if eventName == "request_list_basic_sensors":
         output_dict = {}
         output_dict["device_table"] = []
+        state["list_of_basicSens"].sort(key=lambda x: int(x.get_device_home()), reverse=True)
         for basic_dev in state["list_of_basicSens"]:
             device_home = basic_dev.get_device_home()
             device_name = basic_dev.get_device_name()

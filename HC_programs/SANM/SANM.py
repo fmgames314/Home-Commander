@@ -11,6 +11,7 @@ import os
 import socket
 import time
 import pickle
+import traceback
 #import other files in same directory
 import basicDevices as BD
 import homeCommanderDevices as HCD
@@ -49,8 +50,8 @@ async def consumer_handler(websocket):
             # print(packet)
             try:
                 await SE.process_websocket_event(websocket,packet,packet["event"],getState())
-            except Exception as e:
-                print("bad websocket packet, probably no event name: "+str(e))
+            except Exception as e:               
+                traceback.print_exc()
         except Exception as e:
             print("failed to packet.loads: " + str(e))
             print("Here is the failed message: " + str(message))
