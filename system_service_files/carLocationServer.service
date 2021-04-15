@@ -1,0 +1,14 @@
+[Unit]
+Description=tracking http server for car
+After=network.target
+
+[Service]
+User=pi
+Restart=no
+Type=simple
+# Required for pipenv
+WorkingDirectory=/home/pi/home_commander/HC_programs/device_home_car
+ExecStart=/usr/bin/python3 carLocationServer.py
+
+[Install]
+WantedBy=multi-user.target

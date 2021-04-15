@@ -11,9 +11,6 @@ state["dictOfStates"] = {}
 state["lastTime"] = 0
 state["listOfSensors"] = []
 
-# @PDS10?0?
-# @PDS3?0?
-# @PDS21?0?
 
 def millis():
     return time.time_ns() // 1_000_000 

@@ -51,3 +51,15 @@ cp device_home_xbee.service /lib/systemd/system/device_home_xbee.service
 chmod 644 /lib/systemd/system/device_home_xbee.service
 systemctl enable device_home_xbee
 systemctl restart device_home_xbee
+
+systemctl disable device_home_car
+cp device_home_car.service /lib/systemd/system/device_home_car.service
+chmod 644 /lib/systemd/system/device_home_car.service
+systemctl enable device_home_car
+systemctl restart device_home_car
+
+systemctl disable carLocationServer
+cp carLocationServer.service /lib/systemd/system/carLocationServer.service
+chmod 644 /lib/systemd/system/carLocationServer.service
+systemctl enable carLocationServer
+systemctl restart carLocationServer
